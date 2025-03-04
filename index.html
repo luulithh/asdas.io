@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список пользователей</title>
+    <script>
+        async function loadUsers() {
+            try {
+                let response = await fetch('http://127.0.0.1:5000/users'); // Запрос к серверу
+                let users = await response.json(); // Преобразуем ответ в JSON
+                
+                let usersList = document.getElementById("usersList");
+                usersList.innerHTML = "";
+
+                users.forEach(user => {
+                    let listItem = document.createElement("li");
+                    listItem.textContent = `${user.full_name} (@${user.username})`;
+                    usersList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error("Ошибка загрузки данных:", error);
+            }
+        }
+
+        window.onload = loadUsers;
+    </script>
+</head>
+<body>
+    <h1>Пользователи</h1>
+    <ul id="usersList">Загрузка...</ul>
+</body>
+</html>
